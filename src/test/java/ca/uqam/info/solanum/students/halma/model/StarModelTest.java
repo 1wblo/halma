@@ -14,7 +14,7 @@ public class StarModelTest extends AbstractModelTest {
 
     // TODO: Provide new Model object, using factory (your implementation).
     // Example (your factory /model constructor may be different)
-    // return new ModelFactory().createModel(baseSize, new String[] {"Alice", "Ryan", "Quentin"});
+     return new ModelFactory().createModel(baseSize, new String[] {"Alice", "Ryan", "Quentin"});
   }
 
 }

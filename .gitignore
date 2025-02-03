@@ -1,0 +1,32 @@
+# Fichiers et dossiers générés par Maven
+target/
+*.jar
+*.war
+*.ear
+
+# Fichiers spécifiques aux IDE (IntelliJ, Eclipse, VS Code, NetBeans, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+.vscode/
+
+# Fichiers de logs
+logs/
+*.log
+
+# Fichiers compilés et temporaires
+*.class
+*.DS_Store
+*.swp
+*.swo
+
+# Cache et fichiers système
+out/
+bin/
+tmp/
+node_modules/
+
