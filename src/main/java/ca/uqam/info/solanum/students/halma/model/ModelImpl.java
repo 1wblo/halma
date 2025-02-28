@@ -7,94 +7,90 @@ import java.util.Set;
 
 import java.util.*;
 
+/**
+ * blalala
+ */
 public class ModelImpl implements Model {
-    private final Board board;
-    private final String[] playerNames;
-    private final int currentPlayer;
-    // Stocke les champs occupés
-    private final Map<Field, Integer> occupiedFields;
-
-    public ModelImpl(Board board, String[] players) {
-        this.board = board;
-        this.playerNames = Arrays.copyOf(players, players.length);
-        this.currentPlayer = 0;
-        this.occupiedFields = new HashMap<>();
-
-
-        initializePlayerPieces();
-    }
+    private String[] playersNames;
+    private BoardImpl board;
+    private int nbPlayers;
+    private int baseSize;
+    private int currentPlayer;
 
     /**
-     *  Initialise les pièces des joueurs en les plaçant dans leur zone de départ.
-     *  Pour chaque joueur, récupère les champs de départ et les assigne à ce joueur.
+     * blallala
+     * @param baseSize blala
+     * @param playersNames blala
+     * @param nbPlayers blala
      */
-    private void initializePlayerPieces() {
-        // Place chque joueur dans leur zone de départ
-        for (int i = 0; i < playerNames.length; i++) {
-            Set<Field> homeFields = board.getHomeFieldsForPlayer(i);
-            for (Field field : homeFields) {
-                occupiedFields.put(field, i);
-            }
-        }
-    }
+   public ModelImpl(int baseSize, String[] playersNames, int nbPlayers) {
+       this.playersNames = playersNames;
+       this.board = new BoardImpl(baseSize, nbPlayers);
+       this.nbPlayers = playersNames.length;
+       this.baseSize = baseSize;
+   }
 
     @Override
     public Board getBoard() {
-        return board;
+        return this.board;
     }
 
     @Override
     public String[] getPlayerNames() {
-        //retourne une copie
-        return Arrays.copyOf(playerNames, playerNames.length);
+        return this.playersNames;
     }
 
     @Override
     public Set<Field> getPlayerFields(int playerIndex) {
-        if (playerIndex < 0 || playerIndex >= playerNames.length) {
-            throw new IllegalArgumentException("Invalid player index: " + playerIndex);
-        }
-
-        //Collecte tous les champs occupés par le joueur indiqué
-
-        Set<Field> fields = new HashSet<>();
-        for (Map.Entry<Field, Integer> entry : occupiedFields.entrySet()) {
-            if (entry.getValue() == playerIndex) {
-                fields.add(entry.getKey());
-            }
-        }
-
-        return Collections.unmodifiableSet(fields);
+        return board.getHomeFieldsForPlayer(playerIndex);
     }
 
     @Override
-    public int getCurrentPlayer() {
+    public int getCurrentPlayer(){
+       int currentPlayer = 0;
         return currentPlayer;
     }
-
     @Override
     public boolean isClear(Field field) throws FieldException {
+        boolean isClear = false;
+        boolean isPresence = false ;
+        try {
+            for (Field neutral : board.getAllFields()) {
+                if (neutral.equals(field)) {
+                    isPresence = true;
+                }
+                for (Field base : board.getAllHomeFields()) {
+                    if (neutral.equals(field) && !(base.equals(field))) {
+                        isClear = true;
+                        break;
+                    }
+                }
+            }
+            if (!isPresence) {
+                throw new FieldException("no field found");
+            }
 
-        if (!board.getAllFields().contains(field)) {
-            throw new FieldException("Invalid field position");
+        }catch (FieldException e) {
+            System.out.println(e.getMessage());
         }
-
-        return !occupiedFields.containsKey(field);
+        return isClear;
     }
 
-
     @Override
-    public void occupyField(int playerIndex, Field field) throws FieldException {
-        throw new RuntimeException("");
+    public void occupyField(int i, Field field) throws FieldException {
     }
 
     @Override
     public void clearField(Field field) throws FieldException {
-        throw new RuntimeException("");
     }
 
     @Override
-    public void setCurrentPlayer(int playerIndex) {
-        throw new RuntimeException("");
+    public void setCurrentPlayer(int i) {
+        this.currentPlayer = i;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return true;
     }
 }
