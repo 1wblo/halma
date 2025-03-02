@@ -4,19 +4,16 @@ import ca.uqam.info.solanum.inf2050.f24halma.controller.ModelFactory;
 import ca.uqam.info.solanum.inf2050.f24halma.model.ModelReadOnly;
 import ca.uqam.info.solanum.inf2050.f24halma.view.TextualVisualizer;
 import ca.uqam.info.solanum.students.halma.controller.StarModelFactory;
-
 // TODO: create something implementing ModelFactory in controller package, and import it here
 
 /**
  * Sample console launcher, to start TP code.
  */
 public class DefaultConsoleLauncher {
-
   /**
    * Default Constructor.
    */
   public DefaultConsoleLauncher() {
-
   }
 
   /**
@@ -25,7 +22,6 @@ public class DefaultConsoleLauncher {
    * @param args no arguments required.
    */
   public static void main(String[] args) {
-
     runTp01();
     //    runTP01();
     //    runTP01();
@@ -35,17 +31,10 @@ public class DefaultConsoleLauncher {
     // Set default parameters
     int baseSize = 1;
     String[] playerNames = new String[] {"Alice", "Bob", "Charlie"};
-
     // Create a model (read only access) for the provided game parameters
-//    ModelFactory modelFactory =
-//        new ModelFactory(); // TODO: Create this class in YOUR package and import/use it here.
-//    ModelReadOnly model = modelFactory.createModel(baseSize, playerNames);
-
     ModelFactory modelFactory =
-            new StarModelFactory(); // TODO: Create this class in YOUR package and import/use it here.
+        new StarModelFactory(); // TODO: Create this class in YOUR package and import/use it here.
     ModelReadOnly model = modelFactory.createModel(baseSize, playerNames);
-
-
     // Visualize initial model state
     boolean useColours = false;
     TextualVisualizer visualizer = new TextualVisualizer(useColours);
