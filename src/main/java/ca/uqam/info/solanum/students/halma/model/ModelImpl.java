@@ -8,6 +8,7 @@ import ca.uqam.info.solanum.inf2050.f24halma.model.ModelAccessConsistencyExcepti
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -187,19 +188,17 @@ public class ModelImpl implements Model {
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
-      //return true;  // Vérifie la même instance
+      return true;
     }
     if (obj == null || getClass() != obj.getClass()) {
-      // return false;  // Vérifie la classe et nullité
+      return false;
     }
-    ModelImpl model = (ModelImpl) obj;
-    // Comparaison des joueurs
-    boolean playerNamesEqual = Arrays.equals(playersNames, model.playersNames);
-    // Comparaison du nombre de joueurs
-    boolean nbPlayersEqual = nbPlayers == model.nbPlayers;
-    // Comparaison du plateau (le cas échéant)
-    boolean boardEqual = board.equals(model.board);
-    return playerNamesEqual && nbPlayersEqual && boardEqual;
+    ModelImpl other = (ModelImpl) obj;
+    return baseSize == other.baseSize
+        && nbPlayers == other.nbPlayers
+        && currentPlayer == other.currentPlayer
+        && Arrays.equals(playersNames, other.playersNames)
+        && Arrays.deepEquals(occupiedFields, other.occupiedFields);
   }
 }
 
