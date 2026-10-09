@@ -89,7 +89,7 @@ Le projet est autonome : il ne dépend que de JUnit 4 pour les tests et compile 
 
 ## Contexte
 
-Projet d'équipe réalisé à trois. Le squelette initial (configuration Maven, lanceur console et tests de base) a été fourni par l'enseignant du cours ; l'historique Git conserve cette attribution.
+Projet d'équipe réalisé à trois. Le squelette initial (configuration Maven, lanceur console et tests de base) a été fourni par l'enseignant du cours ; ces commits apparaissent dans l'historique Git sous l'auteur « Materiel de cours ».
 
 ## Auteur
 
