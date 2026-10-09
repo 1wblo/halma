@@ -6,6 +6,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.halmaboard.api.Field;
 import org.halmaboard.api.FieldException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 public class BoardImplTest {
@@ -35,6 +37,38 @@ public class BoardImplTest {
           Set<Field> homeFieldsForPlayer1 = board.getHomeFieldsForPlayer(1);
           assertNotNull(homeFieldsForPlayer1);
           assertFalse(homeFieldsForPlayer1.isEmpty());
+     }
+
+     @Test
+     public void testTargetFieldsAreOppositeOfHomeFields() {
+          // Le centre du plateau sert de centre de symétrie
+          int minX = Integer.MAX_VALUE;
+          int maxX = Integer.MIN_VALUE;
+          int minY = Integer.MAX_VALUE;
+          int maxY = Integer.MIN_VALUE;
+          for (Field field : board.getAllFields()) {
+               minX = Math.min(minX, field.x());
+               maxX = Math.max(maxX, field.x());
+               minY = Math.min(minY, field.y());
+               maxY = Math.max(maxY, field.y());
+          }
+          for (int player = 0; player < nbPlayers; player++) {
+               Set<Field> mirroredHome = new HashSet<>();
+               for (Field field : board.getHomeFieldsForPlayer(player)) {
+                    mirroredHome.add(new Field(minX + maxX - field.x(), minY + maxY - field.y()));
+               }
+               assertEquals(mirroredHome, board.getTargetFieldsForPlayer(player));
+          }
+     }
+
+     @Test
+     public void testTargetFieldsDifferFromHomeFields() {
+          for (int player = 0; player < nbPlayers; player++) {
+               Set<Field> home = board.getHomeFieldsForPlayer(player);
+               Set<Field> target = board.getTargetFieldsForPlayer(player);
+               assertEquals(home.size(), target.size());
+               assertTrue(Collections.disjoint(home, target));
+          }
      }
 
      @Test(expected = FieldException.class)

@@ -115,31 +115,32 @@ public class BoardImpl implements Board {
           // Ajouter aux champs de départ et d'arrivée selon le segment
           if (segment < 6) { // Exclure l'hexagone central
             allHomeFields.add(field);
-            // Affecter les champs de départ et d'arrivée en fonction du segment
+            // Le segment est la zone de départ d'un joueur et la zone d'arrivée du joueur
+            // placé dans la branche opposée (0 et 3, 1 et 5, 2 et 4)
             switch (segment) {
               case 0:
                 homeFieldsForPlayer0.add(field);
-                targetFieldsForPlayer0.add(field);
+                targetFieldsForPlayer3.add(field);
                 break;
               case 1:
                 homeFieldsForPlayer1.add(field);
-                targetFieldsForPlayer1.add(field);
+                targetFieldsForPlayer5.add(field);
                 break;
               case 2:
                 homeFieldsForPlayer2.add(field);
-                targetFieldsForPlayer2.add(field);
+                targetFieldsForPlayer4.add(field);
                 break;
               case 3:
                 homeFieldsForPlayer3.add(field);
-                targetFieldsForPlayer3.add(field);
+                targetFieldsForPlayer0.add(field);
                 break;
               case 4:
                 homeFieldsForPlayer4.add(field);
-                targetFieldsForPlayer4.add(field);
+                targetFieldsForPlayer2.add(field);
                 break;
               case 5:
                 homeFieldsForPlayer5.add(field);
-                targetFieldsForPlayer5.add(field);
+                targetFieldsForPlayer1.add(field);
                 break;
               default:
             }
@@ -181,17 +182,17 @@ public class BoardImpl implements Board {
   public Set<Field> getHomeFieldsForPlayer(int playerIndex) {
     switch (playerIndex) {
       case 0:
-        return Collections.unmodifiableSet(targetFieldsForPlayer0);
+        return Collections.unmodifiableSet(homeFieldsForPlayer0);
       case 1:
-        return Collections.unmodifiableSet(targetFieldsForPlayer1);
+        return Collections.unmodifiableSet(homeFieldsForPlayer1);
       case 2:
-        return Collections.unmodifiableSet(targetFieldsForPlayer2);
+        return Collections.unmodifiableSet(homeFieldsForPlayer2);
       case 3:
-        return Collections.unmodifiableSet(targetFieldsForPlayer3);
+        return Collections.unmodifiableSet(homeFieldsForPlayer3);
       case 4:
-        return Collections.unmodifiableSet(targetFieldsForPlayer4);
+        return Collections.unmodifiableSet(homeFieldsForPlayer4);
       case 5:
-        return Collections.unmodifiableSet(targetFieldsForPlayer5);
+        return Collections.unmodifiableSet(homeFieldsForPlayer5);
       default:
         return Collections.emptySet();
     }
@@ -264,17 +265,17 @@ public class BoardImpl implements Board {
   public Set<Field> getTargetFieldsForPlayer(int playerIndex) {
     switch (playerIndex) {
       case 0:
-        return Collections.unmodifiableSet(homeFieldsForPlayer0);
+        return Collections.unmodifiableSet(targetFieldsForPlayer0);
       case 1:
-        return Collections.unmodifiableSet(homeFieldsForPlayer1);
+        return Collections.unmodifiableSet(targetFieldsForPlayer1);
       case 2:
-        return Collections.unmodifiableSet(homeFieldsForPlayer2);
+        return Collections.unmodifiableSet(targetFieldsForPlayer2);
       case 3:
-        return Collections.unmodifiableSet(homeFieldsForPlayer3);
+        return Collections.unmodifiableSet(targetFieldsForPlayer3);
       case 4:
-        return Collections.unmodifiableSet(homeFieldsForPlayer4);
+        return Collections.unmodifiableSet(targetFieldsForPlayer4);
       case 5:
-        return Collections.unmodifiableSet(homeFieldsForPlayer5);
+        return Collections.unmodifiableSet(targetFieldsForPlayer5);
       default:
         return Collections.emptySet();
     }

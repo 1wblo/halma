@@ -7,7 +7,7 @@ Projet réalisé dans le cadre d'un cours universitaire de génie logiciel (hive
 ## Ce que fait le projet
 
 - Construit un plateau en étoile à six branches dont la taille dépend d'un paramètre `baseSize`.
-- Calcule, pour chaque joueur, sa zone de départ dans une des branches de l'étoile.
+- Calcule, pour chaque joueur, sa zone de départ dans une des branches de l'étoile et sa zone cible dans la branche opposée.
 - Détermine les cases voisines d'une case ainsi que la case « au-delà » d'une voisine, nécessaire pour les sauts.
 - Maintient l'état de la partie : noms des joueurs, joueur courant, cases occupées, avec validation des accès (case inexistante, case déjà occupée, index de joueur invalide).
 - Affiche dans la console un résumé de la partie (joueurs, joueur courant, cases occupées) et dessine le plateau en étoile avec les pions de chaque joueur.
