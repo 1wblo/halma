@@ -13,30 +13,7 @@
         <maven.compiler.release>21</maven.compiler.release>
     </properties>
 
-    <!-- Add third party repo-->
-    <repositories>
-        <repository>
-            <id>Depot Maven du cours</id>
-            <url>https://cours.example.invalid/inf2050repo/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <!-- Provided interfaces -->
-        <dependency>
-            <groupId>ca.uqam.info.solanum</groupId>
-            <artifactId>halmainterfaces</artifactId>
-            <version>f25-1.4</version>
-        </dependency>
-
-        <!-- Provided abstract tests, as TEST scoped dependency -->
-        <dependency>
-            <groupId>ca.uqam.info.solanum</groupId>
-            <artifactId>halmatests</artifactId>
-            <version>f25-1.4-tp2-regressed</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Junit 4 dependency-->
         <dependency>
             <groupId>junit</groupId>

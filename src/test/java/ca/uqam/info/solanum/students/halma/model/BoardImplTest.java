@@ -4,8 +4,8 @@ import ca.uqam.info.solanum.students.halma.model.BoardImpl;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import ca.uqam.info.solanum.inf2050.f24halma.model.Field;
-import ca.uqam.info.solanum.inf2050.f24halma.model.FieldException;
+import org.halmaboard.api.Field;
+import org.halmaboard.api.FieldException;
 import java.util.Set;
 
 public class BoardImplTest {

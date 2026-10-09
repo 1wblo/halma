@@ -1,8 +1,8 @@
 package ca.uqam.info.solanum.students.halma.controller;
 
-import ca.uqam.info.solanum.inf2050.f24halma.controller.ModelFactory;
-import ca.uqam.info.solanum.inf2050.f24halma.model.Model;
 import ca.uqam.info.solanum.students.halma.model.ModelImpl;
+import org.halmaboard.api.Model;
+import org.halmaboard.api.ModelFactory;
 
 /**
  * Factory pour la création du modèle de jeu Halma avec une configuration d'étoile.

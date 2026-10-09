@@ -1,14 +1,14 @@
 package ca.uqam.info.solanum.students.halma.model;
 
-import ca.uqam.info.solanum.inf2050.f24halma.model.Board;
-import ca.uqam.info.solanum.inf2050.f24halma.model.Field;
-import ca.uqam.info.solanum.inf2050.f24halma.model.FieldException;
-import ca.uqam.info.solanum.inf2050.f24halma.model.Model;
-import ca.uqam.info.solanum.inf2050.f24halma.model.ModelAccessConsistencyException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import org.halmaboard.api.Board;
+import org.halmaboard.api.Field;
+import org.halmaboard.api.FieldException;
+import org.halmaboard.api.Model;
+import org.halmaboard.api.ModelAccessConsistencyException;
 
 /**
  * Implémentation du modèle de jeu Halma.

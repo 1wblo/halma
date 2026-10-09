@@ -1,9 +1,9 @@
 package ca.uqam.info.solanum.students.halma.view;
 
-import ca.uqam.info.solanum.inf2050.f24halma.controller.ModelFactory;
-import ca.uqam.info.solanum.inf2050.f24halma.model.ModelReadOnly;
-import ca.uqam.info.solanum.inf2050.f24halma.view.TextualVisualizer;
 import ca.uqam.info.solanum.students.halma.controller.StarModelFactory;
+import org.halmaboard.api.ModelFactory;
+import org.halmaboard.api.ModelReadOnly;
+import org.halmaboard.view.SimpleConsoleVisualizer;
 // TODO: create something implementing ModelFactory in controller package, and import it here
 
 /**
@@ -37,7 +37,7 @@ public class DefaultConsoleLauncher {
     ModelReadOnly model = modelFactory.createModel(baseSize, playerNames);
     // Visualize initial model state
     boolean useColours = false;
-    TextualVisualizer visualizer = new TextualVisualizer(useColours);
+    SimpleConsoleVisualizer visualizer = new SimpleConsoleVisualizer(useColours);
     System.out.println(visualizer.stringifyModel(model));
   }
 

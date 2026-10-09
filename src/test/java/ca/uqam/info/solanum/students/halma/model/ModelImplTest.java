@@ -3,9 +3,9 @@ package ca.uqam.info.solanum.students.halma.model;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import ca.uqam.info.solanum.inf2050.f24halma.model.Field;
-import ca.uqam.info.solanum.inf2050.f24halma.model.ModelAccessConsistencyException;
-import ca.uqam.info.solanum.inf2050.f24halma.model.FieldException;
+import org.halmaboard.api.Field;
+import org.halmaboard.api.ModelAccessConsistencyException;
+import org.halmaboard.api.FieldException;
 import java.util.Iterator;
 
 public class ModelImplTest {
@@ -19,10 +19,14 @@ public class ModelImplTest {
           String[] playerNames = {"Alice", "Bob", "Charlie", "David", "Eve", "Frank"};
           model = new ModelImpl(8, playerNames, 6); // Initialiser le modèle avec 6 joueurs
 
-          // Récupérer un champ valide depuis le plateau de jeu
+          // Récupérer un champ valide et libre depuis le plateau de jeu
           Iterator<Field> fieldIterator = model.getBoard().getAllFields().iterator();
-          if (fieldIterator.hasNext()) {
-               field1 = fieldIterator.next();
+          while (fieldIterator.hasNext()) {
+               Field candidate = fieldIterator.next();
+               if (model.isClear(candidate)) {
+                    field1 = candidate;
+                    break;
+               }
           }
           field2 = new Field(1, 2);
      }
