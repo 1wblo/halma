@@ -4,7 +4,6 @@ import ca.uqam.info.solanum.students.halma.controller.StarModelFactory;
 import org.halmaboard.api.ModelFactory;
 import org.halmaboard.api.ModelReadOnly;
 import org.halmaboard.view.SimpleConsoleVisualizer;
-// TODO: create something implementing ModelFactory in controller package, and import it here
 
 /**
  * Sample console launcher, to start TP code.
@@ -23,8 +22,6 @@ public class DefaultConsoleLauncher {
    */
   public static void main(String[] args) {
     runTp01();
-    //    runTP01();
-    //    runTP01();
   }
 
   private static void runTp01() {
@@ -32,8 +29,7 @@ public class DefaultConsoleLauncher {
     int baseSize = 1;
     String[] playerNames = new String[] {"Alice", "Bob", "Charlie"};
     // Create a model (read only access) for the provided game parameters
-    ModelFactory modelFactory =
-        new StarModelFactory(); // TODO: Create this class in YOUR package and import/use it here.
+    ModelFactory modelFactory = new StarModelFactory();
     ModelReadOnly model = modelFactory.createModel(baseSize, playerNames);
     // Visualize initial model state
     boolean useColours = false;
