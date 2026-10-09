@@ -26,7 +26,7 @@ public class DefaultConsoleLauncher {
 
   private static void runTp01() {
     // Set default parameters
-    int baseSize = 1;
+    int baseSize = 3;
     String[] playerNames = new String[] {"Alice", "Bob", "Charlie"};
     // Create a model (read only access) for the provided game parameters
     ModelFactory modelFactory = new StarModelFactory();

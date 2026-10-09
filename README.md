@@ -1,16 +1,16 @@
 # Halma
 
-Implémentation en Java du modèle de jeu **Halma** (variante en étoile, aussi connue sous le nom de « dames chinoises ») : génération du plateau, placement initial des pions de chaque joueur et résumé textuel de l'état de la partie dans la console.
+Implémentation en Java du modèle de jeu **Halma** (variante en étoile, aussi connue sous le nom de « dames chinoises ») : génération du plateau, placement initial des pions de chaque joueur et dessin du plateau dans la console.
 
 Projet réalisé dans le cadre d'un cours universitaire de génie logiciel (hiver 2025).
 
 ## Ce que fait le projet
 
 - Construit un plateau en étoile à six branches dont la taille dépend d'un paramètre `baseSize`.
-- Calcule, pour chaque joueur, sa zone de départ et la zone cible située à l'opposé du plateau.
+- Calcule, pour chaque joueur, sa zone de départ dans une des branches de l'étoile.
 - Détermine les cases voisines d'une case ainsi que la case « au-delà » d'une voisine, nécessaire pour les sauts.
 - Maintient l'état de la partie : noms des joueurs, joueur courant, cases occupées, avec validation des accès (case inexistante, case déjà occupée, index de joueur invalide).
-- Affiche dans la console un résumé de la partie : joueurs, joueur courant et nombre de cases occupées par chacun.
+- Affiche dans la console un résumé de la partie (joueurs, joueur courant, cases occupées) et dessine le plateau en étoile avec les pions de chaque joueur.
 
 ## Architecture
 
@@ -22,7 +22,7 @@ Le code suit une organisation **MVC**, avec une **fabrique** (*Factory*) pour cr
 | Modèle | `ModelImpl` | État de la partie : joueurs, joueur courant, occupation des cases. |
 | Contrôleur | `StarModelFactory` | Fabrique qui construit un modèle prêt à l'emploi à partir de la taille du plateau et des noms des joueurs. |
 | Vue | `DefaultConsoleLauncher` | Point d'entrée : crée un modèle par la fabrique et l'affiche dans la console. |
-| Vue | `SimpleConsoleVisualizer` | Produit le résumé textuel d'un modèle. |
+| Vue | `SimpleConsoleVisualizer` | Produit le résumé textuel d'un modèle et le dessin du plateau. |
 
 Les classes implémentent les interfaces du package `org.halmaboard.api` (`Board`, `Model`, `ModelFactory`). La vue ne dépend que de la version en lecture seule du modèle (`ModelReadOnly`).
 
@@ -40,9 +40,11 @@ Les classes implémentent les interfaces du package `org.halmaboard.api` (`Board
     │   ├── controller/      StarModelFactory
     │   ├── model/           BoardImpl, ModelImpl
     │   └── view/            DefaultConsoleLauncher
-    └── test/java/ca/uqam/info/solanum/students/halma
-        ├── controller/      StarModelFactoryTest
-        └── model/           BoardImplTest, ModelImplTest, StarModelTest
+    ├── test/java/ca/uqam/info/solanum/students/halma
+    │   ├── controller/      StarModelFactoryTest
+    │   └── model/           BoardImplTest, ModelImplTest, StarModelTest
+    └── test/java/org/halmaboard/view
+                             SimpleConsoleVisualizerTest
 ```
 
 ## Lancer le projet
@@ -52,7 +54,31 @@ Prérequis : Java 21 et Maven.
 ```bash
 mvn clean package   # compile, vérifie le style, exécute les tests, génère le jar et la Javadoc
 mvn test            # exécute uniquement les tests unitaires
-mvn exec:java       # lance DefaultConsoleLauncher et affiche le résumé de la partie
+mvn exec:java       # lance DefaultConsoleLauncher et dessine le plateau
+```
+
+Exemple de sortie (trois joueurs, `baseSize = 3`) : chaque chiffre est un pion du joueur de même indice, chaque point une case libre.
+
+```
+         .                 1
+            .           1
+         .     .     1     1
+            .     .     1
+         .     .     .     1
+            .     .     .
+         .     .     .     .
+      0     .     .     .     .
+   0     .     .     .     .     .
+0     0     .     .     .     .     .
+   0     .     .     .     .     .
+      0     .     .     .     .
+         .     .     .     .
+            .     .     .
+         .     .     .     2
+            .     .     2
+         .     .     2     2
+            .           2
+         .                 2
 ```
 
 ## Dépendances
