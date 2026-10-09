@@ -1,113 +1,64 @@
-# H A L M A 
+# Halma
 
- > Vous avez le droit de modifier ce fichier. Voici quelques informations techniques pour faciliter le démarrage TP1.
+Implémentation en Java du modèle de jeu **Halma** (variante en étoile, aussi connue sous le nom de « dames chinoises ») : génération du plateau, placement initial des pions de chaque joueur et affichage textuel de l'état de la partie dans la console.
 
-Ce project et un projet Maven. N'utilisez pas le triangle vert de votre IDE aveuglement, parce que par défaut cela ignore la configuration fournie. Utilisez les commandes en dessus pour interagir avec votre project.
-Vous avez l'option de [configurer le comportement du triangle vert](https://www.jetbrains.com/help/idea/run-debug-configuration-maven.html), pour que ça déclenche les commandes en dessous (instructions plus bas).
+Projet réalisé dans le cadre d'un cours universitaire de génie logiciel (hiver 2025).
 
-> Rappel: Ne modifiez pas le fichier `pom.xml` (configuration maven fourni). **Si vous le changez, votre soumission sera réjetté.**
+## Ce que fait le projet
 
-## Quoi implémenter
+- Construit un plateau en étoile à six branches dont la taille dépend d'un paramètre `baseSize`.
+- Calcule, pour chaque joueur, sa zone de départ et la zone cible située à l'opposé du plateau.
+- Détermine les cases voisines d'une case ainsi que la case « au-delà » d'une voisine, nécessaire pour les sauts.
+- Maintient l'état de la partie : noms des joueurs, joueur courant, cases occupées, avec validation des accès (case inexistante, case déjà occupée, index de joueur invalide).
+- Affiche le plateau initial en mode texte dans la console.
 
-Vous devez implémenter plusieurs classes et méthodes pour ce premier TP. Votre implémentation **doit** être conforme [aux interfaces fournies](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces). Cela inclut toute information textuellement spécifiée dans la documentation, par exemple les déscriptions des interfaces.
+## Architecture
 
-Le code *source* des interfaces, et classes automatiquement accessibles pour votre implementation est également disponible sur GitLab: [https://gitlab.info.uqam.ca/inf2050/halma/halmainterfaces](https://gitlab.info.uqam.ca/inf2050/halma/halmainterfaces)
+Le code suit une organisation **MVC**, avec une **fabrique** (*Factory*) pour créer le modèle :
 
-Spécifiquement, les classes suivantes sont demandées :
+| Couche | Classe | Rôle |
+|--------|--------|------|
+| Modèle | `BoardImpl` | Géométrie du plateau : cases, zones de départ et zones cibles, voisinage. |
+| Modèle | `ModelImpl` | État de la partie : joueurs, joueur courant, occupation des cases. |
+| Contrôleur | `StarModelFactory` | Fabrique qui construit un modèle prêt à l'emploi à partir de la taille du plateau et des noms des joueurs. |
+| Vue | `DefaultConsoleLauncher` | Point d'entrée : crée un modèle par la fabrique et l'affiche dans la console. |
 
-### Code de production
+Les classes implémentent des interfaces fournies par le cours (`Board`, `Model`, `ModelFactory`). La vue ne dépend que de la version en lecture seule du modèle (`ModelReadOnly`).
 
-* Une classe dans : `src/main/java/ca/uqam/info/solanum/student/halma/controller/`. Le dossier **doit** contenir une classe **implémentant** [l'interface fourni `ModelFactory`](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/controller/ModelFactory.html), en utilisant le mot clé `implements`. Vous dévez implémenter les méthodes suivantes :
-  * [`createModel`](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/controller/ModelFactory.html#createModel(int,java.lang.String%5B%5D))
-* Une classe dans : `src/main/java/ca/uqam/info/solanum/student/halma/model/`. Le dossier **doit** contenir une classe **implémentant** [l'interface fourni `Model`](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/model/ModelReadOnly.html), en utilisant le mot clé `implements`. Vous devez implémenter toutes les 5 méthodes spécifiées dans [sa classe superieure ModelReadOnly](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/model/ModelReadOnly.html), mais aucune [des trois fournis par l'extension Model](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/model/Model.html).
-* Une classe dans : `src/main/java/ca/uqam/info/solanum/student/halma/model/`. Le dossier **doit** contenir une classe **implémentant** [l'interface fourni `Board`](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/model/Board.html), en utilisant le mot clé `implements`. Vous devez implémenter seulement implémenter les méthodes suivantes :
-  * [`getAllFields`](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/model/Board.html#getAllFields())
-  * [`getAllHomeFields`](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/model/Board.html#getAllHomeFields())
-  * [`getHomeFieldsForPlayer`](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/model/Board.html#getHomeFieldsForPlayer(int))
-  * [`getTargetFieldsForPlayer`](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/model/Board.html#getTargetFieldsForPlayer(int))
-  
-  Pour le TP1, il n'est pas nécessaire d'implementer les méthodes suivantes :
-  * [`getNeighbours`](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/model/Board.html#getNeighbours(ca.uqam.info.solanum.inf2050.f24halma.model.Field))
-  * [`getExtendedNeighbour`](https://inf2050.pages.info.uqam.ca/halma/halmainterfaces/ca/uqam/info/solanum/inf2050/f24halma/model/Board.html#getExtendedNeighbour(ca.uqam.info.solanum.inf2050.f24halma.model.Field,ca.uqam.info.solanum.inf2050.f24halma.model.Field))
-  Vous pouvez simplement lancer une exception dans ces deux méthodes (ainsi que pour les trois méthodes non-utilisés dans votre implémentation Modèle):  
-  `throw new RuntimeException("Not yet implemented");`
+## Structure des dossiers
 
- > Pourquoi la `Factory` ? Sélon la logique MVC, on ne veut aucune logique dans le package Model. Pourtant, la creation du Modèle nécessite un peu de logique. En utilisant [le patron de conception `Factory`](https://refactoring.guru/fr/design-patterns/factory-method), on peut garder toute logique dans le controller, cépendant les données du Modèle resteront dans leur package approprié.
-  
-### Code de tests
+```
+.
+├── pom.xml                  Configuration Maven (compilation, Checkstyle, Javadoc, exécution)
+├── google_checks.xml        Règles Checkstyle (style Google)
+└── src
+    ├── main/java/ca/uqam/info/solanum/students/halma
+    │   ├── controller/      StarModelFactory
+    │   ├── model/           BoardImpl, ModelImpl
+    │   └── view/            DefaultConsoleLauncher
+    └── test/java/ca/uqam/info/solanum/students/halma
+        ├── controller/      StarModelFactoryTest
+        └── model/           BoardImplTest, ModelImplTest, StarModelTest
+```
 
-* Pour pouvoir accéder les tests existants, il suffira de compléter les deux classes de tests dans :  
-`src/test/java/ca/uqam/info/solanum/student/halma/*/`
-* Chaque classe nécessite qu'une seule méthode.
-* Une fois implémenté, vous pouvez tester votre soumission en utilisant la commande maven correspondante. Alternativement vous pouvez lancer un clique droit sur le package de test, suivi par "lancer tous les tests".
+## Lancer le projet
 
- > Cette partie **n'est pas optionnel**. Si vous ne fournissez pas les deux classes de test, qui `extends` les classes de test fournies, **votre solution sera rejeté**.
+Prérequis : Java 21 et Maven.
 
-## References
+```bash
+mvn clean package   # compile, vérifie le style, exécute les tests, génère le jar et la Javadoc
+mvn test            # exécute uniquement les tests unitaires
+mvn exec:java       # lance DefaultConsoleLauncher et affiche le plateau
+```
 
-Vous trouvez plusieurs "étoiles" [sur le site TP1](https://inf2050.uqam.ca/fr/1tp.html#dispositions-de-reference).
+## Limite connue : dépendances du cours
 
-## Commandes terminal
+Le projet dépend de deux bibliothèques fournies par le cours, `halmainterfaces` (interfaces et visualiseur textuel) et `halmatests` (tests abstraits), hébergées sur un dépôt Maven de l'université. **Sans accès à ce dépôt, le projet ne compile pas de façon autonome.** Ces bibliothèques ne m'appartiennent pas et ne sont donc pas incluses ici.
 
- * Compiler et executer tests fournis, sans lancer jeu:
-`mvn clean package`
+## Contexte
 
- * Compiler et lancer jeu, sans tester:
-`mvn clean compile exec:java -Dexec.args="1 Alice Quentin Jean"`
+Projet d'équipe réalisé à trois. Le squelette initial (configuration Maven, lanceur console et tests de base) a été fourni par l'enseignant du cours ; l'historique Git conserve cette attribution.
 
- * Compiler, executer les tests, et lancer le jeu:
-`mvn clean package exec:java -Dexec.args="1 Alice Quentin Jean"`
+## Auteur
 
-> Pour lancer le jeu, remplacez `1` par un autre chiffre positif, pour augmenter la taille du terrain du jeu. Le chiffre indique la taille des "bases" (triangles des joueurs).
-
-
-## Profils d'exécution IntellliJ
-
-* Les profils d'exécution définissent *comment* votre code est compilé et démarré.
-* Intuitivement, on pourrait penser que c'est trivial, car il y a des triangles verts invitants ("<text style="color:green">&#9654;</text>") partout dans l'éditeur.
-  <img src="https://resources.jetbrains.com/help/img/idea/2024.2/ij-run-current-file.png" width="80%" style="display: block; margin-left: auto; margin-right: auto;"/>
-
-* Cependant, par défaut, l'IDE ne sait rien d'un système de build que nous pourrions utiliser.
-
- > Avertissement: Les configurations d'exécution par défaut sont pour des projets Java minimaux, c'est-à-dire des projets sans paramètres et sans dépendances. Elles ne déclenchent **pas** Maven ; en utilisant les triangles verts, vous ne bénéficierez pas des avantages d'un système de build.
-
-Avant de pouvoir développer sur un projet Maven, nous devons indiquer à l'IDE quelles sont nos intentions :
-
-* Quelle configuration du système de build utiliser
-* Ce qui doit se passer lorsque nous "exécutons" notre projet
-
-#### Chargement de la configuration du système de build
-
-* IntelliJ est souvent bon pour deviner à partir des fichiers trouvés dans un projet.
-* Cependant, il est plus fiable de dire explicitement à IntelliJ quel type de projet nous avons.
-    * Comme vous vous en souvenez d'une précédente leçon, des bibliothèques supplémentaires peuvent être configurées dans le `pom.xml` de Maven (par exemple, JUnit).
-    * Maven modifie le classpath pour nous, nous pouvons utiliser ces dépendances.
-    * Si IntelliJ ne sait pas que nous utilisons Maven, le classpath reste inchangé et nous verrons beaucoup d'erreurs chaque fois que nous essaierons de travailler avec un artefact externe du JDK.
-* Pour dire explicitement à IntelliJ que nous utilisons le système de build Maven :
-    1. Faites un clic droit sur le fichier `pom.xml` à gauche
-    2. Sélectionnez `Ajouter en tant que projet Maven -> Recharger`
-
-#### Configuration d'une configuration de lancement Maven
-
-* Nous pouvons [indiquer à IntelliJ d'utiliser Maven](https://www.jetbrains.com/help/idea/run-debug-configuration-maven.html) lorsque le triangle vert en haut ("<text style="color:green">&#9654;</text>") est cliqué.
-    1. Cliquez sur le menu déroulant (à côté de l'icône "<text style="color:green">&#9654;</text>")
-    2. Sélectionnez "Modifier les configurations..."
-    3. Cliquez sur l'icône "+" puis sélectionnez l'option "Maven" (⌥) :
-    4. Donnez un nom à votre configuration et spécifiez la commande Maven (⌘) à exécuter :
-       <img src="https://resources.jetbrains.com/help/img/idea/2024.2/maven_run_configuration.png" width="100%" style="display: block; margin-left: auto; margin-right: auto;"/>
-
-    * Pour le champ **Exécuter**, omettez l'instruction initiale "mvn".
-    * Exemple : si vous souhaitez appeler `mvn clean package`, chaque fois que vous cliquez sur "<text style="color:green">&#9654;</text>", tapez simplement `clean package`.
-
-* À partir de maintenant, vous pouvez exécuter votre programme avec Maven, en utilisant le lanceur *supérieur*.
-* Vous pouvez également répéter le dernier appel du lanceur avec : `Control (⌃) + R`
-
- > Astuce: Définissez plusieurs configurations d'exécution pour diverses commandes Maven, par exemple, une pour construire un jar, une pour exécuter uniquement des tests, une pour exécuter votre code, etc. Nous apprendrons bientôt comment utiliser efficacement la ligne de commande Maven (⌘) pour exécuter des phases spécifiques du système de build.
-
-
-
-
-
-
-
-
+Abdoul Wadoud Bello
