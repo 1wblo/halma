@@ -36,6 +36,18 @@ public class SimpleConsoleVisualizer {
    * @return le resume textuel suivi du dessin du plateau.
    */
   public String stringifyModel(ModelReadOnly model) {
+    return stringifyModel(model, false);
+  }
+
+  /**
+   * Decrit le modele comme {@link #stringifyModel(ModelReadOnly)}, avec en option les
+   * coordonnees des cases : x en haut du plateau, y a gauche.
+   *
+   * @param model           modele a decrire.
+   * @param showCoordinates true pour graduer le plateau avec les coordonnees x et y.
+   * @return le resume textuel suivi du dessin du plateau.
+   */
+  public String stringifyModel(ModelReadOnly model, boolean showCoordinates) {
     String[] names = model.getPlayerNames();
     int current = model.getCurrentPlayer();
     StringBuilder sb = new StringBuilder();
@@ -52,17 +64,18 @@ public class SimpleConsoleVisualizer {
     if (current >= 0 && current < names.length) {
       sb.append("Joueur courant : ").append(colourise(current, names[current])).append('\n');
     }
-    sb.append('\n').append(stringifyBoard(model));
+    sb.append('\n').append(stringifyBoard(model, showCoordinates));
     return sb.toString();
   }
 
   /**
    * Dessine le plateau ligne par ligne a partir des coordonnees des cases.
    *
-   * @param model modele dont on dessine le plateau.
+   * @param model           modele dont on dessine le plateau.
+   * @param showCoordinates true pour ajouter les coordonnees x (en haut) et y (a gauche).
    * @return le dessin du plateau, une ligne de texte par rangee de cases.
    */
-  private String stringifyBoard(ModelReadOnly model) {
+  private String stringifyBoard(ModelReadOnly model, boolean showCoordinates) {
     Set<Field> fields = model.getBoard().getAllFields();
     if (fields.isEmpty()) {
       return "";
@@ -84,8 +97,18 @@ public class SimpleConsoleVisualizer {
       maxY = Math.max(maxY, field.y());
     }
     StringBuilder sb = new StringBuilder();
+    if (showCoordinates) {
+      StringBuilder header = new StringBuilder("y\\x  ");
+      for (int x = minX; x <= maxX; x++) {
+        header.append(String.format("%-3d", x));
+      }
+      sb.append(header.toString().stripTrailing()).append('\n');
+    }
     for (int y = minY; y <= maxY; y++) {
       StringBuilder line = new StringBuilder();
+      if (showCoordinates) {
+        line.append(String.format("%3d   ", y));
+      }
       for (int x = minX; x <= maxX; x++) {
         line.append(symbolFor(new Field(x, y), fields, owners)).append("  ");
       }
