@@ -85,6 +85,27 @@ public class StarModelTest {
   }
 
   @Test
+  public void testFirstPlayerIsCurrentInitially() {
+    assertEquals(0, model.getCurrentPlayer());
+  }
+
+  @Test
+  public void testSetCurrentPlayerChangesCurrentPlayer() throws ModelAccessConsistencyException {
+    model.setCurrentPlayer(2);
+    assertEquals(2, model.getCurrentPlayer());
+    model.setCurrentPlayer(0);
+    assertEquals(0, model.getCurrentPlayer());
+  }
+
+  @Test
+  public void testInvalidIndexLeavesCurrentPlayerUnchanged()
+      throws ModelAccessConsistencyException {
+    model.setCurrentPlayer(1);
+    assertThrows(ModelAccessConsistencyException.class, () -> model.setCurrentPlayer(-1));
+    assertEquals(1, model.getCurrentPlayer());
+  }
+
+  @Test
   public void testSetCurrentPlayerWithInvalidIndexThrows() {
     assertThrows(ModelAccessConsistencyException.class, () -> model.setCurrentPlayer(-1));
     assertThrows(ModelAccessConsistencyException.class,

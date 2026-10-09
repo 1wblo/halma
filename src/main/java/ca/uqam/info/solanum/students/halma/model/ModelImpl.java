@@ -33,6 +33,7 @@ public class ModelImpl implements Model {
     this.board = new BoardImpl(baseSize, nbPlayers);
     this.nbPlayers = playersNames.length;
     this.baseSize = baseSize;
+    this.currentPlayer = 0;
     // Initialisation du tableau des champs occupés
     this.occupiedFields = new HashSet[nbPlayers];
     for (int i = 0; i < nbPlayers; i++) {
@@ -85,8 +86,7 @@ public class ModelImpl implements Model {
    */
   @Override
   public int getCurrentPlayer() {
-    currentPlayer = 1;
-    return currentPlayer;
+    return this.currentPlayer;
   }
 
   /**
